@@ -107,16 +107,17 @@ function recordTranscript() {
         console.log("showing how the ipfs hash is before storing..." + ipfsHashParsed);
         return transcript.record.sendTransaction(account, ipfsHashParsed, {from: account});
     })
-    .then (function (result) {
+    .then(function (result) {
         console.log("Successfully added hash to the solidity contract!");
         console.log("tx:" + result);
     })
     .then(function() {
         return transcript.getTranscripts.call(account, {from: account});
     })
-    .then (function (result) {
-        console.log( "Hash array retrieved from the smart contract.");
+    .then(function (result) {
+        console.log( "Hash array retrieved from the smart contract. Right after putting in.");
         console.log(result);
+        ipfsHashFromSmartContrat = null;
         ipfsHashFromSmartContrat = result;
     })
     .catch(function(error) {
@@ -137,7 +138,7 @@ function getTranscripts() {
         return transcript.getTranscripts.call(account, {from: account});
     })
     .then (function (result) {
-        console.log( "Hash array retrieved from the smart contract.");
+        console.log("Hash array retrieved from the smart contract.");
         console.log(result);
     })
     .catch(function(error) {
@@ -147,11 +148,11 @@ function getTranscripts() {
 
 // 8. Company X goes to each IPFS hash and decrypt the document. --> api
 function retrieveTranscriptSigned() {
-    console.log("retrieveTranscriptSigned()" + ipfsHashFromSmartContrat[0]);
+    console.log("retrieveTranscriptSigned()" + ipfsHashFromSmartContrat[ipfsHashFromSmartContrat.length-1]);
     var settings = {
         "async": true,
         "crossDomain": true,
-        "url": "http://localhost:5000/trancripts/"+ ipfsHashFromSmartContrat[0],
+        "url": "http://localhost:5000/trancripts/"+ ipfsHashFromSmartContrat[ipfsHashFromSmartContrat.length-1],
         "method": "GET",
         "headers": {
             "Content-Type": "application/json",

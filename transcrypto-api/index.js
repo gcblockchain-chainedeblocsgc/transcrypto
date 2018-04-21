@@ -34,15 +34,19 @@ app.post('/trancripts', (req, res) => {
     // 3. Student encrypts the transcript(s) with their private key
     console.log("Transcript file: "+ transcript);
     encryptedTranscript = encrypt(transcript);
-    console.log("Encrypted Transcript: " + encryptedTranscript);
+    console.log("Encrypted transcript file: " + encryptedTranscript);
 
-    // 4. Student (or uni) adds document on IPFS. 
-    sendEncryptedFileToIpfs();
-
-    console.log("parsing...");
-    ipfsHashParsed = fromIPFSHash(ipfsHash).bytes32Hash;
-    console.log('returning ipfsHashParsed' + ipfsHashParsed);
-    res.send(ipfsHashParsed);
+    let encryptedTranscriptBuffer = new Buffer(encryptedTranscript);
+    ipfs.files.add(encryptedTranscriptBuffer, (err, filesAdded) => {
+        if (err)
+            return console.error('err', err)
+        
+        const file = filesAdded[0];
+        ipfsHash = file.hash;
+        ipfsHashParsed = fromIPFSHash(file.hash).bytes32Hash;
+        
+        res.send(ipfsHashParsed);            
+    });    
 })
 
 // 5. Student (or uni) stores on the smart contract the IPFS hash for the student. --> front-end (done)
@@ -50,26 +54,27 @@ app.post('/trancripts', (req, res) => {
 // 7. Company X queries the blockchain to retrieve all the student's documents IPFS hash. --> front-end
 // 8. Company X goes to each IPFS hash and decrypt the document. --> api
 app.get('/trancripts/:hash', (req, res) => {
-    console.log("Hash received from solidity contract. " + req.params);
+    console.log("Hash received from solidity contract. " + req.params.hash);
 
     ipfsBase58 = toIPFSHash(req.params.hash);
-    console.log("parsing hex to base58: " + ipfsBase58);
 
     // Retrieve document from IPFS. 
-    let file = retriveEncryptedFileFromIpfs(ipfsBase58);
+    ipfs.files.cat(ipfsBase58, function (err, file) {
+        if (err) {
+          throw err
+        }
+        
+        // Decrypt the transcript(s) with the private key
+        console.log("Encrypted transcript file: " + file);
+        let decryptedTranscript = decrypt(file.toString());
 
-    // Decrypt the transcript(s) with the private key
-    console.log("Encrypted transcript file: "+ file);
-    let decryptedTranscript = decrypt(file);
-
-    console.log('returning decryptedTranscript' + decryptedTranscript);
-    res.send(decryptedTranscript);
+        console.log('returning decryptedTranscript' + decryptedTranscript);
+        res.send(decryptedTranscript);
+    })
 })
 
 // 9. Company X validates that each document was indeed signed by the right university / instiution. --> front-end
 // 10. Print and read over the transcript --> front-end
-
-//console.log('Decrypted Transcript: ' + decryptedTranscript);
 
 /**
  * Here "aes-256-cbc" is the advance encyption standard we used for encrytion.
@@ -96,43 +101,6 @@ function decrypt(text) {
 }
 
 /**
- * Add file to IPFS
- */
-const sendEncryptedFileToIpfs = function() {
-    // node.on('ready', () => {
-    //     // Your node is now ready to use \o/
-    //     console.log('ready');
-    //     // stopping a node
-    //     node.stop(() => {
-    //         // node is now 'offline'
-    //     })
-    //     })
-
-    console.log('hello ipfs!');
-    let encryptedTranscriptBuffer = new Buffer(encryptedTranscript);
-    ipfs.files.add(encryptedTranscriptBuffer, (err, filesAdded) => {
-        if (err)
-            return console.error('err', err)
-        
-        const file = filesAdded[0];
-        ipfsHash = file.hash;
-        console.log('IPFS Hash: ' + file.hash);
-    })
-}
-
-const retriveEncryptedFileFromIpfs = function(ipfsPath) {
-    console.log('hello ipfs! ' + ipfsPath);
-    ipfs.files.cat(ipfsPath, function (err, file) {
-        if (err) {
-          throw err
-        }
-      
-        console.log("File from ipfs: " + file.toString('utf8'));
-        return file;
-      })
-}
-
-/**
  * Partition multihash string into object representing multihash
  *
  * @param {string} hash A base58 encoded multihash string
@@ -148,20 +116,17 @@ function fromIPFSHash(hash) {
 /**
  * Encode a bytes32 hash into base58 encoded multihash string
  *
- * @param {Multihash} multihash
+ * @param {string} bytes32Hash
  * @returns {(string|null)} base58 encoded multihash string
  */
 function toIPFSHash(bytes32Hash) {
-    console.log("toIPFSHash input: " + bytes32Hash);
-    let digest = bytes32Hash;
     // cut off leading "0x"
     const remove0x = bytes32Hash.slice(2);
-    console.log("hashBytes: " + remove0x);
     
     // add back the multihash id
     const bytes = Buffer.from(`1220${remove0x}`, "hex");
     const hash = bs58.encode(bytes);
-    console.log("toIPFSHash result: " + multihashBytes);
+
     return hash;
 }
 
