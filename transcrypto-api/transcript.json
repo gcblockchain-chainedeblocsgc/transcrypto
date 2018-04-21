@@ -1,0 +1,14 @@
+{
+    "name" :"Paula",
+    "degree" : "BS CS",
+    "courses": [
+        {
+            "name": "Math",
+            "grade": "80"
+        },
+        {
+            "name": "Algorithms",
+            "grade": "100"
+        }
+    ]
+}
