@@ -2522,16 +2522,16 @@ ul.no-bullet, ol.no-bullet {
     margin-right: 0;
     margin-left: 0; }
   .button.primary {
-    background-color: #1779ba;
+    background-color: #239B56;
     color: #fefefe; }
     .button.primary:hover, .button.primary:focus {
-      background-color: #126195;
+      background-color: #1D8348;
       color: #fefefe; }
   .button.secondary {
-    background-color: #767676;
+    background-color: #FFA726;
     color: #fefefe; }
     .button.secondary:hover, .button.secondary:focus {
-      background-color: #5e5e5e;
+      background-color: ##FF9800;
       color: #fefefe; }
   .button.success {
     background-color: #3adb76;
@@ -3330,14 +3330,14 @@ select {
   border: none;
   border-radius: 0;
   background-color: none;
-  color: #0a0a0a; }
+  color: #ffffff; }
   .callout > :first-child {
     margin-top: 0; }
   .callout > :last-child {
     margin-bottom: 0; }
   .callout.primary {
-    background-color: #d7ecfa;
-    color: #0a0a0a; }
+    background-color: #239B56;
+    color: #ffffff; }
   .callout.secondary {
     background-color: #eaeaea;
     color: #0a0a0a; }
@@ -5019,6 +5019,7 @@ a.thumbnail {
 
 .title-bar-left,
 .title-bar-right {
+  background:linear-gradient(#df244a, #ed8256);
   -ms-flex: 1 1 0px;
       flex: 1 1 0px; }
 
