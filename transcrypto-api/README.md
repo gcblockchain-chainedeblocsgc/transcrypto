@@ -14,12 +14,19 @@ Run the app `Transcrypto-master` with:
 ```
 npm run dev
 ```
-Go to the url `http://localhost:3001/ipfs-tests.html`
+Go to the url `http://localhost:3000/index.html`
 
 1. Make sure you are logged with Metamask
 1. It'll run automatically the sign function.
 1. After signing with Metamask, run this function in the console 
 ```
 sendTranscriptSigned()
+```
+
+*** 
+
+# Contracts Tests /transcrypto-frontend
+```
+npm test
 ```
 
