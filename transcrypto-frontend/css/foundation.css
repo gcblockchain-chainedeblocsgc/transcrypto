@@ -21,6 +21,7 @@
      *    IE on Windows Phone and in iOS.
      */
 html {
+
   font-family: sans-serif;
   /* 1 */
   line-height: 1.15;
@@ -36,6 +37,7 @@ html {
      * Remove the margin in all browsers (opinionated).
      */
 body {
+
   margin: 0; }
 
 /**
@@ -3325,9 +3327,9 @@ select {
   position: relative;
   margin: 0 0 1rem 0;
   padding: 1rem;
-  border: 1px solid rgba(10, 10, 10, 0.25);
+  border: none;
   border-radius: 0;
-  background-color: white;
+  background-color: none;
   color: #0a0a0a; }
   .callout > :first-child {
     margin-top: 0; }
@@ -3357,7 +3359,8 @@ select {
     padding-top: 3rem;
     padding-right: 3rem;
     padding-bottom: 3rem;
-    padding-left: 3rem; }
+    padding-left: 3rem;
+    }
 
 .close-button {
   position: absolute;
@@ -5933,5 +5936,3 @@ a.thumbnail {
       opacity: 1;
     }
   }
-
-  
