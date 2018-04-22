@@ -4,6 +4,7 @@ let transcriptSigned;
 let ipfsHashParsed;
 let ipfsHashFromSmartContrat;
 let sig;
+let documentHash;
 
 function init () {  
     // Is there an injected web3 instance?
@@ -39,20 +40,22 @@ function initContracts() {
         console.log("TranscriptsContract:")
         console.log(TranscriptsContract)
 
-        contracts.Transcripts = TranscriptsContract.deployed();
-        return setWorkflow();    
+        contracts.Transcripts = TranscriptsContract.deployed(); 
     });   
 };
 
-function setWorkflow() {    
-    console.log("initiating sequence...");
+let schoolAddress = web3.eth.accounts[0];
+let schoolRegistryContractAddress = "0x9f544a3fc3d1045e6ec49d4ecef6dcd700457165"; // Get every time after deploying it
+let schoolName = "UofT";
+let schoolWebsite = "https://www.utoronto.ca/";
+let owner = web3.eth.accounts[0];
+let account = web3.eth.accounts[0];
+let db_documentHash = "0x738baf80cbf85079913053698e82d382d864b2811207b72299d750b0b9ef953d";
+let db_sig = "b3a8b6b66a64476b29867e96ebad7fdf80af69433500019f6c82646075a9b2960ac732d57bddcffaffaa2638204f41ce96a7856792bda4b13caf01bccfbfd8ee1c";
+let db_ipfsHashParsed = "0x13ad61b2123afbf20e627f7b3a4ee3fe66bedeed193e0c9b404d3acbe62aba31";
 
-    let schoolAddress = web3.eth.accounts[0];
-    let schoolRegistryContractAddress = "0xa48cb2e08db0de8a00935cc6686301e6a21a30c3"; // Get every time after deploying it
-    let schoolName = "UofT";
-    let schoolWebsite = "https://www.utoronto.ca/";
-    let owner = web3.eth.accounts[0];
-    let account = web3.eth.accounts[0];
+function setData() {    
+    console.log("initiating sequence to set data...");
     
     // Set SchoolRegistry contract address by the owner.
     setSchoolRegistry(schoolRegistryContractAddress, owner, () => {        
@@ -66,24 +69,27 @@ function setWorkflow() {
                 encryptAndSendTranscriptSignedToIpfs(transcriptSigned, () => {
                     //  5. Student (or uni) stores on the smart contract the IPFS hash for the student.
                     //recordTranscript(account);
-                    recordTranscript(account, () => {
-                        // 6. Student gives their public key to company X that want to decrypt the student's transcripts. --> front-end
-                        // 7. Company X queries the blockchain to retrieve all the student's documents IPFS hash. --> front-end
-                        getTranscripts(account, () => {
-                            // 8. Company X goes to each IPFS hash and decrypt the document. --> api
-                            // TODO: Get dynamic array of indexes
-                            // let ipfsPath = ipfsHashFromSmartContrat[ipfsHashFromSmartContrat.length-1];
-                            retrieveTranscriptSigned(ipfsHashParsed, () => {
-                                // 9. Company X validates that each document was indeed signed by the right university / institution.
-                                getSignerSchoolRegistryInfo(ipfsHashParsed, sig);
-                            });
-                        });
-                    });
+                    recordTranscript(account);
                 });
             });
         });
     });
-    
+}
+function getData() {    
+    console.log("initiating sequence to get data...");
+    // 6. Student gives their public key to company X that want to decrypt the student's transcripts. --> front-end
+    // 7. Company X queries the blockchain to retrieve all the student's documents IPFS hash. --> front-end                     
+    getTranscripts(account, () => {
+        // 8. Company X goes to each IPFS hash and decrypt the document. --> api
+        // TODO: Get dynamic array of indexes
+        // let ipfsPath = ipfsHashFromSmartContrat[ipfsHashFromSmartContrat.length-1];
+        retrieveTranscriptSigned(db_ipfsHashParsed, () => {
+            // 9. Company X validates that each document was indeed signed by the right university / institution.
+            getSignerSchoolRegistryAddress(db_documentHash, db_sig, () => {
+                getSchoolRegistryInfo(account);
+            });             
+        });
+    });
     // 10. Print and read over the transcript --> front-end
 }
 
@@ -94,7 +100,7 @@ function setWorkflow() {
  * @returns {string} tx
  */
 function setSchoolRegistry(schoolRegistryContractAddress, owner, callback = undefined) {
-    console.log('function setSchoolRegistry() schoolRegistryContractAddress: ' + schoolRegistryContractAddress + "owner: " + owner);  
+    console.log('function setSchoolRegistry() schoolRegistryContractAddress: ' + schoolRegistryContractAddress + " owner: " + owner);  
     contracts.Transcripts
     .then(function(instance) {
         transcripts = instance;
@@ -139,22 +145,25 @@ function signTranscript(schoolAddress, callback = undefined) {
     $.getJSON('../transcript.json', function(data) {
         var document = JSON.stringify(data);
         console.log('Transcript File: ' + document);
-        var documentHash = web3.sha3(document, {encoding: 'hex'});
+        documentHash = web3.sha3(document, {encoding: 'hex'});
         console.log('Transcript Sha3: ' + documentHash);
+
+        web3.eth.sign(schoolAddress, documentHash, function(error, sig) {
+            if(!error){            
+                console.log('sig: ' + sig.slice(2));
         
-        var signatureFromUni = web3.personal.sign(documentHash, schoolAddress, function(error, result){
-            if(!error){
-                data.Signature = result;
-                sig = result;
+                data.Signature = sig.slice(2);
+                sig = sig.slice(2);
                 transcriptSigned = JSON.stringify(data);
-                console.log("transcriptSigned: " + transcriptSigned);
-                if(callback !== undefined)
-                    callback();
+                console.log('transcriptSigned: ' + transcriptSigned);
                 return transcriptSigned;
             }
             else
                 console.error(error);
         });
+        if(callback !== undefined)
+            callback();
+        return transcriptSigned;
     }); 
 };
 
@@ -200,24 +209,25 @@ function recordTranscript(account, callback = undefined) {
     .then(function(instance) {
         transcript = instance;
         console.log("showing how the ipfs hash is before storing..." + ipfsHashParsed);
-        return transcript.record.sendTransaction(account, ipfsHashParsed, {from: account});
+        return transcript.record.sendTransaction(account, ipfsHashParsed, {from: account})
+        .then(function (result) {
+            console.log("Successfully added hash to the solidity contract!");
+            console.log("tx:" + result);
+        })
+        .then(function() {
+            return transcript.getTranscripts.call(account, {from: account});
+        })
+        .then(function (result) {
+            console.log( "Hash array retrieved from the smart contract. Right after putting in.");
+            console.log(result);
+            ipfsHashFromSmartContrat = null;
+            ipfsHashFromSmartContrat = result;
+        })
+        .catch(function(error) {
+            console.log( "Error trying to retrive the hash arrays from the smart contract: " + error.toString());
+        });
     })
-    .then(function (result) {
-        console.log("Successfully added hash to the solidity contract!");
-        console.log("tx:" + result);
-    })
-    .then(function() {
-        return transcript.getTranscripts.call(account, {from: account});
-    })
-    .then(function (result) {
-        console.log( "Hash array retrieved from the smart contract. Right after putting in.");
-        console.log(result);
-        ipfsHashFromSmartContrat = null;
-        ipfsHashFromSmartContrat = result;
-    })
-    .catch(function(error) {
-        console.log( "Error trying to retrive the hash arrays from the smart contract: " + error.toString());
-    });
+    
     if(callback !== undefined)
         callback();
 };
@@ -230,19 +240,15 @@ function recordTranscript(account, callback = undefined) {
  */
 function getTranscripts(account, callback = undefined) {
     console.log('function getTranscripts() Account: ' + account);
-    
     contracts.Transcripts
     .then(function(instance) {
-        transcript = instance;
-        return transcript.getTranscripts.call(account, {from: account});
-    })
-    .then (function (result) {
-        console.log("Hash array retrieved from the smart contract.");
-        console.log(result);
-        return result;
-    })
-    .catch(function(error) {
-        console.log( "Error trying to retrive the hash arrays from the smart contract: " + error.toString());
+        transcripts = instance;
+        return transcripts.getTranscripts(account)
+        .then(function(result) {
+            console.log("Hash array retrieved from the smart contract.");
+            console.log(result);
+            return result;
+        })
     });
     
     if(callback !== undefined)
@@ -280,23 +286,40 @@ function retrieveTranscriptSigned(ipfsPath, callback = undefined) {
 
 /**
  * 9. Company X validates that each document was indeed signed by the right university / institution.
+  * @param {string} transcriptHash Transcript SHA3
+ * @param {string} sig Signature sent to validate
+ * @returns {string} Return signer address
+ */
+function getSignerSchoolRegistryAddress(transcriptHash, sig) {
+    console.log("function getSignerSchoolRegistryAdress() transcriptHash: " + transcriptHash + " sig: " + sig);
+    contracts.Transcripts
+    .then(function(instance) {
+        transcripts = instance;
+        return transcripts.getSignatureSigner(transcriptHash, sig)
+        .then(function(result) {
+            console.log("signer " + result);
+            return result;
+        })
+    });
+}
+
+/**
+ * 9. Company X validates that each document was indeed signed by the right university / institution.
  * @param {string} transcriptHash Transcript IPFS Hash hex format
  * @param {string} sig Signature sent to validate
  * @returns {string} Return (0x0, 0x0) if signature is from unknown signer or if signature is invalid for the given hash 
  */
-function getSignerSchoolRegistryInfo(transcriptHash, sig) {
-    console.log("function getSignerSchoolRegistryInfo() transcriptHash: " + transcriptHash + " sig: " + sig);
-    contracts.Transcripts
-    .then(function(instance) {
-        transcripts = instance;
-        return transcripts.getSignerSchoolRegistryInfo.sendTransaction(transcriptHash, sig);
-    })
-	.then(function(result) {
-        console.log(" result ");
-        for(let i = 0; i < result.length; i++) 
-            console.log(" " + result[i]);
-        //TODO
-	})
+function getSchoolRegistryInfo(account) {
+    console.log("function getSchoolRegistryInfo() account: " + account);
+    contracts.SchoolRegistry
+        .then(function(instance) {
+            registry = instance;
+            return registry.getSchoolInfo(account)
+            .then(function(result) {
+                console.log("Name: " + result[0]);
+                console.log("Website: " + result[1]);
+            });
+        });
 }
 
 // 10. Print and read over the transcript --> front-end
