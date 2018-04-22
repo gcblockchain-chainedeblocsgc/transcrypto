@@ -16,17 +16,17 @@
         -moz-background-size:cover;
         -o-background-size:cover;
         background-size:cover;
+        background-repeat:no-repeat;
       }
       </style>
     </head>
 
 <body>
 
-  <div class="cover" style="height:100%; width:100%;">
     <article class="grid-container">
   <div class="row column text-center">
     <center><h2 class="center text"><img src="imgs/logo2.png" height="75px"></h2></center>
-    <p class="lead">Transcrypto is a blockchain dapp that facilitates<br/> peer-to-peer transcript transactions between students and universities.</p>
+    <p class="lead" style="color:white">Transcrypto is a blockchain dapp that facilitates<br/> peer-to-peer transcript transactions between students and universities.</p>
 <br/>
 <br/>
   </div>
@@ -35,33 +35,37 @@
   <div class="grid-x grid-margin-x">
     <div class="medium-2 cell small-order-1 medium-order-1"></div>
     <div class="medium-4 cell small-order-2 medium-order-2">
-      <center><h2>Student Login</h2></center>
-      <label>Email
-        <input type="text" placeholder="columns" />
+      <center><h5 style="color:white">Student Login</h5></center>
+      <label style="color:white">Email
+        <input type="text" placeholder="email" />
       </label>
-      <label>Password
-        <input type="text" placeholder="columns" />
+      <label style="color:white">Password
+        <input type="text" placeholder="password" />
       </label>
-      <button class="button secondary expanded"  href="edu-viewdb.html">Sign-In</button>
-      <button class="button primary expanded"  href="edu-encrypt.html">Register</button>
+      <a href="stu-completed.html"> <button class="button secondary expanded"  href="">Sign-In</button></a>
+      <button class="button primary expanded"  href="edu-ongoing.html">Register</button>
     </div>
     <div class="medium-4 cell small-order-3 medium-order-3">
-    <center>  <h2>Educator Login</h2></center>
-      <label>Email
-        <input type="text" placeholder="columns" />
+    <center>  <h5 style="color:white">Educator Login</h5></center>
+      <label style="color:white">Email
+        <input type="text" placeholder="email" />
       </label>
-      <label>Password
-        <input type="text" placeholder="columns" />
+      <label style="color:white">Password
+        <input type="text" placeholder="password" />
       </label>
-      <button class="button secondary expanded"  href="edu-viewdb.html">Sign-In</button>
+    <a href="edu-viewdb.html">   <button class="button secondary expanded"  href="edu-viewdb.html">Sign-In</button></a>
       <button class="button primary expanded"  href="edu-encrypt.html">Register</button>
 
     </div>
         <div class="medium-2 cell small-order-4 medium-order-4"></div>
+      </div>
 
-  </div>
-
-
+  <div class="row column text-center">
+    <br/>
+      <br/>
+        <br/>
+          <br/>
+            <br/>
 </div>
 
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
