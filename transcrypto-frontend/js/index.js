@@ -54,27 +54,33 @@ let db_documentHash = "0x738baf80cbf85079913053698e82d382d864b2811207b72299d750b
 let db_sig = "b3a8b6b66a64476b29867e96ebad7fdf80af69433500019f6c82646075a9b2960ac732d57bddcffaffaa2638204f41ce96a7856792bda4b13caf01bccfbfd8ee1c";
 let db_ipfsHashParsed = "0x13ad61b2123afbf20e627f7b3a4ee3fe66bedeed193e0c9b404d3acbe62aba31";
 
-function setData() {    
+function setSchoolData() {    
     console.log("initiating sequence to set data...");
     
     // Set SchoolRegistry contract address by the owner.
     setSchoolRegistry(schoolRegistryContractAddress, owner, () => {        
         // Register School with address and other data by the owner.
-        editSchool(schoolAddress, schoolName, schoolWebsite, owner, () => {
-            // 1. University signs a document for a given student (uni will sign the hash of the document basically)
-            // 2. Someone adds the university's signature at the bottom of the document. 
-            signTranscript(schoolAddress, () => {
-                // 3. Student encrypts the whole document with a secondary key (using their 2nd private key). --> api
-                // 4. Student (or uni) adds document on IPFS.  --> api 
-                encryptAndSendTranscriptSignedToIpfs(transcriptSigned, () => {
-                    //  5. Student (or uni) stores on the smart contract the IPFS hash for the student.
-                    //recordTranscript(account);
-                    recordTranscript(account);
-                });
-            });
+        editSchool(schoolAddress, schoolName, schoolWebsite, owner);
+    });
+}
+
+/**
+ * edu-encrypt page functionality
+ * sign document, encrypt file and send to ipfs
+ */
+function signEncryptAndRecord() {
+    // 1. University signs a document for a given student (uni will sign the hash of the document basically)
+    // 2. Someone adds the university's signature at the bottom of the document. 
+    signTranscript(schoolAddress, () => {
+        // 3. Student encrypts the whole document with a secondary key (using their 2nd private key). --> api
+        // 4. Student (or uni) adds document on IPFS.  --> api 
+        encryptAndSendTranscriptSignedToIpfs(transcriptSigned, () => {
+            //  5. Student (or uni) stores on the smart contract the IPFS hash for the student.
+            recordTranscript(account);
         });
     });
 }
+
 function getData() {    
     console.log("initiating sequence to get data...");
     // 6. Student gives their public key to company X that want to decrypt the student's transcripts. --> front-end
