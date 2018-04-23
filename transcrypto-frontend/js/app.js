@@ -193,3 +193,15 @@ function setEventListeners() {
 }
 
 setEventListeners();
+
+
+// edu-decrypt action
+function fillOutDecryptionKey(){
+    console.log("hey");
+    
+    $("#decryptionKey").val('flowers together safety opposing drama steel suffer process town harvest rule believed');
+}
+
+function decryptTranscript(){
+    window.location.href = "http://localhost:3000/edu-file.html";
+}

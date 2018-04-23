@@ -52,7 +52,7 @@ let owner = web3.eth.accounts[0];
 let account = web3.eth.accounts[0];
 let db_documentHash = "0x738baf80cbf85079913053698e82d382d864b2811207b72299d750b0b9ef953d";
 let db_sig = "b3a8b6b66a64476b29867e96ebad7fdf80af69433500019f6c82646075a9b2960ac732d57bddcffaffaa2638204f41ce96a7856792bda4b13caf01bccfbfd8ee1c";
-let db_ipfsHashParsed = "0x13ad61b2123afbf20e627f7b3a4ee3fe66bedeed193e0c9b404d3acbe62aba31";
+let db_ipfsHashParsed = "0x9ab06d31a185c2b1b70f2dcecdf543baaf636959d3d7eaf3fa7344772d81d5c4";
 
 function setSchoolData() {    
     console.log("initiating sequence to set data...");
