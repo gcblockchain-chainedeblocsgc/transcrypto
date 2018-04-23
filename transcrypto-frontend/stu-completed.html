@@ -14,15 +14,16 @@
 <div class="grid-y grid-padding-x" style="height: 100%; background:linear-gradient(#df244a, #ed8256)" >
   <br>
   <div class="cell shrink">
-    <img class="thumbnail" src="imgs/logo2.png">
+  <a href="index.html">  <img class="thumbnail" src="imgs/logo2.png"></a>
     <center><h2 class="center text"><img src="imgs/student.png" height="40px"></h2></center>
   </div>
   <div class="cell auto">
     <center><h5 style="color:white">Mike Mikerson</h5>
-<button class="button secondary expanded" href="stu-ongoing.html">Core Education</button>
-<button class="button secondary expanded"  href="#">Work History</button>
-<button class="button secondary expanded"  href="#">Additional Certification</button>
-<button class="button primary expanded" href="stu-completed.html">Share Transcripts</button>
+      <a href="stu-completed.html"><button class="button secondary expanded" href="stu-ongoing.html">Core Education</button></a>
+      <a href=""><button class="button secondary expanded"  href="#">Work History</button></a>
+      <a href=""><button class="button secondary expanded"  href="#">Additional Certification</button></a>
+      <a href="stu-completed.html"><button class="button primary expanded" href="stu-completed.html">Share Transcripts</button></a>
+
 
     </center>
 
@@ -52,127 +53,35 @@
     <article class="grid-container">
         <div class="grid-x grid-margin-x">
           <div class="medium-12 cell small-order-12 medium-order-12">
-            <h1> College A </h1>
-      <table class="responsive-card-table unstriped">
-        <thead>
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Hero Title</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td data-label="First Name">Bruce</td>
-            <td data-label="Last Name">Wayne</td>
-            <td data-label="Hero Title">Batman</td>
-          </tr>
-          <tr>
-            <td data-label="First Name">Peter</td>
-            <td data-label="Last Name">Parker</td>
-            <td data-label="Hero Title">Spiderman</td>
-          </tr>
-          <tr>
-            <td data-label="First Name">Bruce</td>
-            <td data-label="Last Name">Banner</td>
-            <td data-label="Hero Title">The Hulk</td>
-          </tr>
-          <tr>
-            <td data-label="First Name">Clark</td>
-            <td data-label="Last Name">Kent</td>
-            <td data-label="Hero Title">Superman</td>
-          </tr>
-        </tbody>
-      </table>
-      <button data-addCart class="button button-add-cart"><span>Request Encrypted File</span></button>
-<div data-successMessage class="callout success hide">
-Request has been submitted.
-</div>
+          <h3> Transcrypts received to date: </h3>
 
-    <hr>
+        <a href="">High School Transcrypt </a>
+        <a href="">College Transcrypt </a>
+        <a href="">Work Reference Letter </a>
+        <br/>
+        <hr/>
 
-    <h1> University A </h1>
-<table class="responsive-card-table unstriped">
-<thead>
-  <tr>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th>Hero Title</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td data-label="First Name">Bruce</td>
-    <td data-label="Last Name">Wayne</td>
-    <td data-label="Hero Title">Batman</td>
-  </tr>
-  <tr>
-    <td data-label="First Name">Peter</td>
-    <td data-label="Last Name">Parker</td>
-    <td data-label="Hero Title">Spiderman</td>
-  </tr>
-  <tr>
-    <td data-label="First Name">Bruce</td>
-    <td data-label="Last Name">Banner</td>
-    <td data-label="Hero Title">The Hulk</td>
-  </tr>
-  <tr>
-    <td data-label="First Name">Clark</td>
-    <td data-label="Last Name">Kent</td>
-    <td data-label="Hero Title">Superman</td>
-  </tr>
-</tbody>
-</table>
-<button data-addCart class="button button-add-cart"><span>Request Encrypted File</span></button>
-<div data-successMessage class="callout success hide">
-Request has been submitted.
-</div>
-<hr>
+            <h3> Who would you like to send your transcrypt to? </h3>
+            <select id="select_uni" class="browser-default">
+              <option value="" disabled selected>Select Receiver</option>
+              <option value="University of Toronto">University of Toronto</option>
+              <option value="University of Ottawa">University of Ottawa</option>
+            </select>
+            <br/><br/>
+<h3> Which transcrypt would you like to select? </h3>
+            <label><input type="checkbox" value="all" id-"all">All</label>
+            <label><input type="checkbox" name="transcrypt" value="school">High School Transcrypt </label>
+            <label><input type="checkbox" name="transcrypt" value="school">College Transcrypt </label>
+            <label><input type="checkbox" name="transcrypt" value="school">Work Reference Letter </label>
 
-
-    <h1> University B </h1>
-<table class="responsive-card-table unstriped">
-<thead>
-  <tr>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th>Hero Title</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td data-label="First Name">Bruce</td>
-    <td data-label="Last Name">Wayne</td>
-    <td data-label="Hero Title">Batman</td>
-  </tr>
-  <tr>
-    <td data-label="First Name">Peter</td>
-    <td data-label="Last Name">Parker</td>
-    <td data-label="Hero Title">Spiderman</td>
-  </tr>
-  <tr>
-    <td data-label="First Name">Bruce</td>
-    <td data-label="Last Name">Banner</td>
-    <td data-label="Hero Title">The Hulk</td>
-  </tr>
-  <tr>
-    <td data-label="First Name">Clark</td>
-    <td data-label="Last Name">Kent</td>
-    <td data-label="Hero Title">Superman</td>
-  </tr>
-</tbody>
-</table>
-</div>
-</div>
-<button data-addCart class="button button-add-cart"><span>Request Encrypted File</span></button>
-<div data-successMessage class="callout success hide">
-Request has been submitted.
-</div>
+                              <button class="button primary" onclick="send_data()" class="btn waves-effect waves-light" type="submit" name="action">Submit Request
+            </button>
 <hr>
 
   </article>
 </div>
-
+<script src="js/all-checkboxes.js"></script>
+<script src="js/script.js"></script>
 <script src="js/vendor/jquery.js"></script>
 <script src="js/vendor/what-input.js"></script>
 <script src="js/vendor/foundation.js"></script>
