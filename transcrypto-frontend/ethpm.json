@@ -1,0 +1,19 @@
+{
+  "package_name": "participation-token",
+  "version": "1.7.0",
+  "description": "Frozen tokens issuance for participating in the community",
+  "authors": [
+    "Philippe Castonguay <ph.castonguay@gmail.com>",
+    "Josh Crites <critesjosh@gmail.com>
+  ],
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "smart",
+    "contracts",
+    "security",
+    "token",
+    "blockchain"
+  ],
+  "license": "MIT"
+}
