@@ -18,7 +18,7 @@
     <center><h2 class="center text"><img src="imgs/student.png" height="40px"></h2></center>
   </div>
   <div class="cell auto">
-    <center><h5 style="color:white">Mike Mikerson</h5>
+    <center><h5 style="color:white">Jhon Doe</h5>
       <a href="stu-ongoing.html"><button class="button secondary expanded" href="stu-ongoing.html">Core Education</button></a>
       <a href=""><button class="button secondary expanded"  href="#">Work History</button></a>
       <a href=""><button class="button secondary expanded"  href="#">Additional Certification</button></a>
@@ -35,7 +35,7 @@
 <div class="title-bar hide-for-large">
   <div class="title-bar-left">
     <button class="menu-icon" type="button" data-toggle="my-info"></button>
-    <span class="title-bar-title">Mike Mikerson</span>
+    <span class="title-bar-title">Jhon Doe</span>
   </div>
 </div>
 
@@ -55,11 +55,9 @@
           <div class="medium-12 cell small-order-12 medium-order-12">
           <h3> Transcrypts received to date: </h3>
 
-        <a href="">High School Transcrypt </a>
-        <br/>
-        <a href="">College Transcrypt </a>
-        <br/>
-        <a href="">Work Reference Letter </a>
+        <a href="">High School Transcrypt </a><br/>
+        <a href="">College Transcrypt </a><br/>
+        <a href="">Work Reference Letter </a><br/>
         <br/>
         <hr/>
 
@@ -70,14 +68,14 @@
               <option value="University of Ottawa">University of Ottawa</option>
             </select>
             <br/><br/>
-<h3> Which transcrypt would you like to select? </h3>
-            <label><input type="checkbox" value="all" id-"all">All</label>
-            <label><input type="checkbox" name="transcrypt" value="school">High School Transcrypt </label>
-            <label><input type="checkbox" name="transcrypt" value="school">College Transcrypt </label>
-            <label><input type="checkbox" name="transcrypt" value="school">Work Reference Letter </label>
+    <h3> Which transcrypt would you like to select? </h3>
+        <label><input type="checkbox" value="all" onClick="toggleAll(this)">All</label>
+        <label><input type="checkbox" name="transcrypt" value="school">High School Transcrypt </label>
+        <label><input type="checkbox" name="transcrypt" value="school">College Transcrypt </label>
+        <label><input type="checkbox" name="transcrypt" value="school">Work Reference Letter </label>
 
-                              <button class="button primary" onclick="send_data()" class="btn waves-effect waves-light" type="submit" name="action">Submit Request
-            </button>
+        <button class="button primary" onclick="send_data()" class="btn waves-effect waves-light" type="submit" name="action">Submit Request
+        </button>
 <hr>
 
   </article>

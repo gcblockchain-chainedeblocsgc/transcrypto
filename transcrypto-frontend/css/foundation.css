@@ -5879,6 +5879,10 @@ a.thumbnail {
     }
   }
 
+.testClass {
+    background-color: black;
+}
+
   .button-add-cart {
     position: relative;
     overflow: hidden;
