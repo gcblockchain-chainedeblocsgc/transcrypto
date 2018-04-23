@@ -81,7 +81,7 @@
     "solium": "^1.1.2",
     "strip-ansi": "3.0.1",
     "style-loader": "0.13.1",
-    "truffle": "^4.0.0",
+    "truffle": "^4.1.7",
     "truffle-contract": "^1.1.11",
     "truffle-hdwallet-provider": "0.0.3",
     "truffle-solidity-loader": "0.0.8",
@@ -98,7 +98,6 @@
     "ethjs": "^0.3.3",
     "ethjs-abi": "^0.2.1",
     "ganache-cli": "^6.1.0",
-    "truffle": "^4.1.7",
     "web3-utils": "^1.0.0-beta.33"
   }
 }

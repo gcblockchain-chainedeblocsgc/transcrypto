@@ -56,8 +56,8 @@
     </h5>
     <p>Enter the students' public key below to decrypt transcript.</p>
     <label style="color:white">Decryption key
-      <input type="text" placeholder="decryption key" />
-    <a class="button large primary" href="#">Decrypt Transcript</a>
+      <input id="decryptionKey" type="text" placeholder="decryption key" onclick="fillOutDecryptionKey()"/>
+    <a class="button large primary" onclick="decryptTranscript()">Decrypt Transcript</a>
 
 
   </center>
@@ -71,6 +71,7 @@
 <script src="js/vendor/jquery.js"></script>
 <script src="js/vendor/what-input.js"></script>
 <script src="js/vendor/foundation.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

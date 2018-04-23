@@ -11,7 +11,7 @@ const bs58 = require('bs58');
 const ipfsAPI = require('ipfs-api')
 const ipfs = ipfsAPI('localhost', '5001', {protocol: 'http'})
 const IPFS = require('ipfs')
-const node = new IPFS()
+//const node = new IPFS()
 
 const app = express();
 
