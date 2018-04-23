@@ -1,5 +1,9 @@
-var Transcript = artifacts.require("./Transcripts.sol");
+var SchoolRegistry = artifacts.require("./SchoolRegistry.sol");
+var Transcripts = artifacts.require("./Transcripts.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Transcript);
+    deployer.deploy(SchoolRegistry);
+    deployer.then( () => {      
+        return deployer.deploy(Transcripts);
+    });
 };
